@@ -1,17 +1,27 @@
-import {
-  Routes, Route, Link, Navigate, useMatch
-} from "react-router-dom"
-import Notes from "./components/Notes"
-import Note from "./components/Note"
-import Login from "./components/Login"
-import Home from "./components/Home"
-import Users from "./components/Users"
+import { Link } from "react-router-dom"
 import { useState } from "react"
-import { Container, Alert } from '@mui/material'
+import {
+  Container,
+  Button,
+  AppBar,
+  Toolbar,
+  Alert
+} from '@mui/material'
+
+import Note from "./components/Note"
+import Notes from "./components/Notes"
+import Login from "./components/Login"
+import Users from "./components/Users"
+import Home from "./components/Home"
+
+import {
+  Routes,
+  Route,
+  Navigate,
+  useMatch
+} from "react-router-dom"
 
 const App = () => {
-  const [user, setUser] = useState(null)
-  const [message, setMessage] = useState(null)
   const [notes, setNotes] = useState([
     {
       id: 1,
@@ -32,15 +42,14 @@ const App = () => {
       user: 'Arto Hellas'
     }
   ])
+  const [user, setUser] = useState(null)
+  const [message, setMessage] = useState(null)
 
   const match = useMatch('/notes/:id')
-  const note = match 
+
+  const note = match
     ? notes.find(note => note.id === Number(match.params.id))
     : null
-
-  const padding = {
-    padding: 5
-  }
 
   const login = (user) => {
     setUser(user)
@@ -59,26 +68,35 @@ const App = () => {
           </Alert>
         )}
       </div>
-      <div>
-        <Link style={padding} to="/">home</Link>
-        <Link style={padding} to="/notes">notes</Link>
-        <Link style={padding} to="/users">users</Link>
-        {user
-          ? <em>{user} logged in</em>
-          : <Link style={padding} to="/login">login</Link>
-        }
-      </div>
-
+      <AppBar position="static">
+        <Toolbar>
+          <Button color="inherit" component={Link} to="/">
+            home
+          </Button>
+          <Button color="inherit" component={Link} to="/notes">
+            notes
+          </Button>
+          <Button color="inherit" component={Link} to="/users">
+            users
+          </Button>   
+          {user
+            ? <em>{user} logged in</em>
+            : <Button color="inherit" component={Link} to="/login">
+                login
+              </Button>
+          }                              
+        </Toolbar>
+      </AppBar>
       <Routes>
         <Route path="/notes/:id" element={<Note note={note} />} />
-        <Route path="/notes" element={<Notes notes={notes} />} />   
+        <Route path="/notes" element={<Notes notes={notes} />} />
         <Route path="/users" element={user ? <Users /> : <Navigate replace to="/login" />} />
         <Route path="/login" element={<Login onLogin={login} />} />
         <Route path="/" element={<Home />} />
       </Routes>
-
       <div>
-        <i>Note app, Department of Computer Science 2023</i>
+        <br />
+        <em>Note app, Department of Computer Science 2022</em>
       </div>
     </Container>
   )
