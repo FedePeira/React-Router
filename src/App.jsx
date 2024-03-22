@@ -7,9 +7,11 @@ import Login from "./components/Login"
 import Home from "./components/Home"
 import Users from "./components/Users"
 import { useState } from "react"
+import { Alert } from "react-bootstrap"
 
 const App = () => {
   const [user, setUser] = useState(null)
+  const [message, setMessage] = useState(null)
   const [notes, setNotes] = useState([
     {
       id: 1,
@@ -42,10 +44,20 @@ const App = () => {
 
   const login = (user) => {
     setUser(user)
+    setMessage(`welcome ${user}`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 10000)
   }
 
   return (
-    <div>
+    
+    <div className="container">
+      {(message &&
+        <Alert variant="success">
+          {message}
+        </Alert>
+      )}
       <div>
         <Link style={padding} to="/">home</Link>
         <Link style={padding} to="/notes">notes</Link>
