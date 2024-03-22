@@ -7,6 +7,23 @@ import Login from "./components/Login"
 import Home from "./components/Home"
 import Users from "./components/Users"
 import { useState } from "react"
+import styled from 'styled-components'
+
+const Page = styled.div`
+  padding: 1em;
+  background: papayawhip;
+`
+
+const Navigation = styled.div`
+  background: BurlyWood;
+  padding: 1em;
+`
+
+const Footer = styled.div`
+  background: Chocolate;
+  padding: 1em;
+  margin-top: 1em;
+`
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -45,8 +62,8 @@ const App = () => {
   }
 
   return (
-    <div>
-      <div>
+    <Page>
+      <Navigation>
         <Link style={padding} to="/">home</Link>
         <Link style={padding} to="/notes">notes</Link>
         <Link style={padding} to="/users">users</Link>
@@ -54,7 +71,7 @@ const App = () => {
           ? <em>{user} logged in</em>
           : <Link style={padding} to="/login">login</Link>
         }
-      </div>
+      </Navigation>
 
       <Routes>
         <Route path="/notes/:id" element={<Note note={note} />} />
@@ -64,10 +81,10 @@ const App = () => {
         <Route path="/" element={<Home />} />
       </Routes>
 
-      <div>
+      <Footer>
         <i>Note app, Department of Computer Science 2023</i>
-      </div>
-    </div>
+      </Footer>
+    </Page>
   )
 }
 
